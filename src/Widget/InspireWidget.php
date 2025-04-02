@@ -2,6 +2,7 @@
 
 namespace AbrarDev\InspireWidget\Widget;
 
+use AbrarDev\InspireWidget\Image;
 use AbrarDev\InspireWidget\InspireWidgetPlugin;
 use Filament\Widgets\Widget;
 use Illuminate\Support\Facades\Artisan;
@@ -18,6 +19,7 @@ class InspireWidget extends Widget
     {
         if (count(InspireWidgetPlugin::get()->getQuotes()) > 0) {
             $quotes = InspireWidgetPlugin::get()->getQuotes();
+
             return $quotes[array_rand($quotes)];
         }
 
@@ -26,8 +28,8 @@ class InspireWidget extends Widget
         return Artisan::output();
     }
 
-    public function image(): string
+    public function image(): Image
     {
-        return InspireWidgetPlugin::get()->getImagePath();
+        return InspireWidgetPlugin::get()->getImage();
     }
 }

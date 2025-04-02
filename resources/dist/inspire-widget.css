@@ -2560,20 +2560,16 @@ select {
   height: 100vh;
 }
 
+.h-24 {
+  height: 6rem;
+}
+
+.h-12 {
+  height: 3rem;
+}
+
 .max-h-96 {
   max-height: 24rem;
-}
-
-.max-h-\[\] {
-  max-height: ;
-}
-
-.max-h-\[400px\] {
-  max-height: 400px;
-}
-
-.min-h-\[200px\] {
-  min-height: 200px;
 }
 
 .min-h-\[theme\(spacing\.48\)\] {
@@ -3611,16 +3607,8 @@ select {
   background-size: cover;
 }
 
-.bg-scroll {
-  background-attachment: scroll;
-}
-
 .bg-center {
   background-position: center;
-}
-
-.bg-no-repeat {
-  background-repeat: no-repeat;
 }
 
 .object-cover {
@@ -3724,11 +3712,6 @@ select {
 .py-12 {
   padding-top: 3rem;
   padding-bottom: 3rem;
-}
-
-.py-14 {
-  padding-top: 3.5rem;
-  padding-bottom: 3.5rem;
 }
 
 .py-2 {

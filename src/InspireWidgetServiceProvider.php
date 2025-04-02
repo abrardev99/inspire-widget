@@ -2,18 +2,16 @@
 
 namespace AbrarDev\InspireWidget;
 
-use Filament\Support\Assets\AlpineComponent;
+use AbrarDev\InspireWidget\Testing\TestsInspireWidget;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Filesystem\Filesystem;
 use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use AbrarDev\InspireWidget\Testing\TestsInspireWidget;
 
 class InspireWidgetServiceProvider extends PackageServiceProvider
 {
@@ -26,8 +24,8 @@ class InspireWidgetServiceProvider extends PackageServiceProvider
         $package->name(static::$name)
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
-                    ->publishConfigFile()
-                    ->askToStarRepoOnGitHub('abrardev/inspire-widget');
+                    ->publishAssets();
+                // ->askToStarRepoOnGitHub('abrardev/inspire-widget')
             });
 
         $configFileName = $package->shortName();
@@ -56,13 +54,13 @@ class InspireWidgetServiceProvider extends PackageServiceProvider
             $this->getAssetPackageName()
         );
 
-        // Handle Stubs
+        // publish
         if (app()->runningInConsole()) {
-            foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
-                $this->publishes([
-                    $file->getRealPath() => base_path("stubs/inspire-widget/{$file->getFilename()}"),
-                ], 'inspire-widget-stubs');
-            }
+            $this->app->make(Filesystem::class)->ensureDirectoryExists(public_path('vendor/inspire-widget/images'));
+            $this->app->make(Filesystem::class)->copyDirectory(
+                __DIR__ . '/../resources/images',
+                public_path('vendor/inspire-widget/images')
+            );
         }
 
         // Testing
@@ -80,7 +78,7 @@ class InspireWidgetServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-             Css::make('inspire-widget-styles', __DIR__ . '/../resources/dist/inspire-widget.css'),
+            Css::make('inspire-widget-styles', __DIR__ . '/../resources/dist/inspire-widget.css'),
             Js::make('inspire-widget-scripts', __DIR__ . '/../resources/dist/inspire-widget.js'),
         ];
     }

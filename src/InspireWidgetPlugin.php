@@ -8,7 +8,8 @@ use Filament\Panel;
 class InspireWidgetPlugin implements Plugin
 {
     protected array $quotes = [];
-    protected string $imagePath = '';
+
+    protected Image $image;
 
     public function getId(): string
     {
@@ -20,9 +21,7 @@ class InspireWidgetPlugin implements Plugin
         //
     }
 
-    public function boot(Panel $panel): void
-    {
-    }
+    public function boot(Panel $panel): void {}
 
     public static function make(): static
     {
@@ -49,15 +48,22 @@ class InspireWidgetPlugin implements Plugin
         return $this->quotes;
     }
 
-    public function imagePath(string $imagePath): static
+    public function image(Image $image): static
     {
-        $this->imagePath = $imagePath;
+        $this->image = $image;
 
         return $this;
     }
 
-    public function getImagePath(): string
+    public function getImage(): Image
     {
-        return $this->imagePath;
+        if (! isset($this->image)) {
+            $this->image = new Image(
+                asset('vendor/inspire-widget/images/davide-goldin-JIN0uKc2kl8-unsplash.jpg'),
+                __('Photo by :author on :service')
+            );
+        }
+
+        return $this->image;
     }
 }
