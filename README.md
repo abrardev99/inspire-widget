@@ -7,7 +7,13 @@
 
 
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+A fun little Filament widget that displays daily inspirational quotes.
+
+## Demo
+![dark screenshot](https://github.com/abrardev99/inspire-widget/blob/dev/art/dark.png)
+
+
+![light screenshot](https://github.com/abrardev99/inspire-widget/blob/dev/art/light.png)
 
 ## Installation
 
