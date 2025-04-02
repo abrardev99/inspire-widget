@@ -24,15 +24,9 @@ class InspireWidgetServiceProvider extends PackageServiceProvider
         $package->name(static::$name)
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
-                    ->publishAssets();
-                // ->askToStarRepoOnGitHub('abrardev/inspire-widget')
+                    ->publishAssets()
+                    ->askToStarRepoOnGitHub('abrardev/inspire-widget');
             });
-
-        $configFileName = $package->shortName();
-
-        if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {
-            $package->hasConfigFile();
-        }
 
         if (file_exists($package->basePath('/../resources/views'))) {
             $package->hasViews(static::$viewNamespace);
@@ -54,8 +48,8 @@ class InspireWidgetServiceProvider extends PackageServiceProvider
             $this->getAssetPackageName()
         );
 
-        // publish
         if (app()->runningInConsole()) {
+            // publish images
             $this->app->make(Filesystem::class)->ensureDirectoryExists(public_path('vendor/inspire-widget/images'));
             $this->app->make(Filesystem::class)->copyDirectory(
                 __DIR__ . '/../resources/images',

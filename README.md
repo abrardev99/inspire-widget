@@ -17,18 +17,6 @@ You can install the package via composer:
 composer require abrardev/inspire-widget
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="inspire-widget-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="inspire-widget-config"
-```
 
 Optionally, you can publish the views using
 
@@ -36,18 +24,77 @@ Optionally, you can publish the views using
 php artisan vendor:publish --tag="inspire-widget-views"
 ```
 
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
 
 ## Usage
 
+### Register Plugin
+In your Filament panel provider, register the plugin as
 ```php
-$inspireWidget = new AbrarDev\InspireWidget();
-echo $inspireWidget->echoPhrase('Hello, AbrarDev!');
+use AbrarDev\InspireWidget\InspireWidgetPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            InspireWidgetPlugin::make()
+        ])
+}
+```
+
+### Active Widget
+You can activate widget on dashboard page as follows:
+```php
+use AbrarDev\InspireWidget\Widget\InspireWidget;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+            ->widgets([
+                Widgets\AccountWidget::class,
+                Widgets\FilamentInfoWidget::class,
+                InspireWidget::class,
+            ])
+}
+```
+InspireWidget will show on top since it has top sorting.
+
+### Customization
+#### Providing your own quotes
+You can use plugin to provide an array of your own quotes and Widget will pick them randomally as follows
+```php
+use AbrarDev\InspireWidget\InspireWidgetPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            InspireWidgetPlugin::make()
+                ->quotes([
+                        'The only limit to our realization of tomorrow is our doubts of today.',
+                        'The future belongs to those who believe in the beauty of their dreams.',
+                        'Do not wait to strike till the iron is hot, but make it hot by striking.',
+                    ])
+        ])
+}
+```
+
+#### Providing your own image
+You can also provide your own image. Make sure image is 2084 x 252
+```php
+use AbrarDev\InspireWidget\InspireWidgetPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            InspireWidgetPlugin::make()
+                ->image(
+                    new Image(asset('vendor/inspire-widget/images/patrick-carr-pAoo1Rs1Yy8-unsplash.jpg'),
+                        __('Photo by :author on :service')
+                    )
+                )
+        ])
+}
 ```
 
 ## Testing
